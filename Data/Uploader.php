@@ -1,5 +1,6 @@
 <?php
 
+namespace Data;
 
 class Uploader
 {
@@ -23,18 +24,25 @@ class Uploader
     
     public function upload()
     {
+        
         if ($this->isUploaded()) {
             move_uploaded_file($_FILES[$this->name]['tmp_name'],
-                __DIR__ . '/files/' . $_FILES[$this->name]['name']
+                __DIR__ . '/../files/' . $_FILES[$this->name]['name']
             );
+            $img = new Image();
+            
+            $img->name = $_FILES[$this->name]['name'];
+            $img->save();
             header('Location: /upload.php');
         }
-       
+        
     }
     
     public static function delete($name)
     {
-        unlink(__DIR__ . '/files/' . $name);
+        $img = new Image();
+        $img->deleteName($name);
+        unlink(__DIR__ . '/../files/' . $name);
         header("Location: /upload.php");
     }
 }

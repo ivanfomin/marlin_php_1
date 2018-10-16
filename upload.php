@@ -23,7 +23,7 @@ require_once __DIR__ . '/functions.php';
 <body>
 <?php
 $name = 'myFile';
-$uploader = new \Uploader($name);
+$uploader = new \Data\Uploader($name);
 
 $num = 1;   //image number
 $images = arrFiles(__DIR__ . '/files');
@@ -31,7 +31,7 @@ foreach ($images as $image) {
     ?>
     <li>
         <img src="files/<?php echo $image; ?>">
-        <a href="deleteImage.php?name=<?php echo $image; ?>">Delete</a>
+        <a href="deleteImage.php?name=<?php echo $image; ?> " onclick="return confirm('Are you sure?');">Delete</a>
     </li>
     <?php
 }
