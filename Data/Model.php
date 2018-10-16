@@ -90,7 +90,7 @@ abstract class Model
         $db->execute($sql);
     }
     
-    public function deleteName($name)
+    public static function deleteName($name)
     {
         $sql = 'DELETE FROM ' . static::$table . " WHERE name = :name";
         $db = Db::getInstance();

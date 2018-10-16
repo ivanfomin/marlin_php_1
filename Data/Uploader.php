@@ -2,9 +2,12 @@
 
 namespace Data;
 
-class Uploader
+class Uploader extends Model
 {
-    protected $name;
+    
+    public static $table = 'images';
+    
+    public $name;
     
     public function __construct(string $name)
     {
@@ -29,19 +32,17 @@ class Uploader
             move_uploaded_file($_FILES[$this->name]['tmp_name'],
                 __DIR__ . '/../files/' . $_FILES[$this->name]['name']
             );
-            $img = new Image();
+            $this->name = $_FILES[$this->name]['name'];
             
-            $img->name = $_FILES[$this->name]['name'];
-            $img->save();
+            $this->save();
             header('Location: /upload.php');
         }
         
     }
     
-    public static function delete($name)
+    public static function deleteImg($name)
     {
-        $img = new Image();
-        $img->deleteName($name);
+        self::deleteName($name);
         unlink(__DIR__ . '/../files/' . $name);
         header("Location: /upload.php");
     }
