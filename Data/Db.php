@@ -44,6 +44,7 @@ class Db
     public function query(string $sql, array $data = [], $class = null )
     {
         $sth = $this->dbh->prepare($sql);
+    
         $sth->execute($data);
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
