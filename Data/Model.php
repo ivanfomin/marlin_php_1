@@ -8,9 +8,9 @@ abstract class Model
 {
     protected static $db;
     
-    public function __construct()
+    public function __construct(Db $db)
     {
-       static::$db = Db::getInstance();
+       static::$db = $db;
     }
     
     public function findAll()

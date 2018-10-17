@@ -9,7 +9,7 @@ if (isset($_FILES['myFile'])) {
             __DIR__ . '/files/' . $_FILES['myFile']['name']
         );
         
-        $image = new \Data\Image();
+        $image = new \Data\Image(\Data\Db::getInstance());
         
         $image->setName($_FILES['myFile']['name']);
         
