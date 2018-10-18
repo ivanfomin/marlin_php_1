@@ -6,11 +6,11 @@ include __DIR__ . '/Db.php';
 
 abstract class Model
 {
-    protected  $db;
+    protected $db;
     
     public function __construct(Db $db)
     {
-       $this->db = $db;
+        $this->db = $db;
     }
     
     public function findAll()
@@ -18,7 +18,7 @@ abstract class Model
         return $this->db->query('SELECT * FROM ' . static::$table, [], static::class);
     }
     
-    public  function findById($id)
+    public function findById($id)
     {
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id=:id';
         $data = $this->db->query($sql, [':id' => $id], static::class);
@@ -71,14 +71,14 @@ abstract class Model
         $sql = 'UPDATE ' . static::$table . ' SET ';
         foreach ($this as $column => $value) {
             $data[':' . $column] = $value;
-    
+            
             if ('id' == $column || 'db' == $column) {
                 continue;
             }
             $columns[] = $column . ' = :' . $column;
         }
         $sql = $sql . implode(', ', $columns) . ' WHERE id= ' . ':id';
-       // $data[id] =$this->id;
+        // $data[id] =$this->id;
         $this->db->execute($sql, $data);
     }
     
@@ -88,7 +88,7 @@ abstract class Model
         $this->db->execute($sql);
     }
     
-    public  function deleteName($name)
+    public function deleteName($name)
     {
         $sql = 'DELETE FROM ' . static::$table . " WHERE name = :name";
         $this->db->execute($sql, ['name' => $name]);

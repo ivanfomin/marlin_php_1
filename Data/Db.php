@@ -7,6 +7,7 @@ class Db
 {
     private $dbh;
     private static $connection;
+
 //comment
     private function __construct()
     {
@@ -19,7 +20,7 @@ class Db
             die;
         }
     }
-
+    
     public static function getInstance()
     {
         if (static::$connection === null) {
@@ -27,7 +28,7 @@ class Db
         }
         return static::$connection;
     }
-
+    
     public function execute(string $sql, array $data = [])
     {
         $sth = $this->dbh->prepare($sql);
@@ -40,15 +41,15 @@ class Db
         }
         return true;
     }
-
-    public function query(string $sql, array $data = [], $class = null )
+    
+    public function query(string $sql, array $data = [], $class = null)
     {
         $sth = $this->dbh->prepare($sql);
-    
+        
         $sth->execute($data);
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
-
+    
     public function lastInsertId()
     {
         return $this->dbh->lastInsertId();

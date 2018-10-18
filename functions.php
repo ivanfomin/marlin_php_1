@@ -12,11 +12,11 @@ function validate(array $params)
 {
     $str = '';
     foreach ($params as $name => $param) {
-        if(empty($param)) {
-            $str .= 'Поле ' . $name .' обязательно для заполнения.' . PHP_EOL;
+        if (empty($param)) {
+            $str .= 'Поле ' . $name . ' обязательно для заполнения.' . PHP_EOL;
         }
     }
-    if(empty($str)) {
+    if (empty($str)) {
         return true;
     } else {
         return $str;
