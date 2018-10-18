@@ -6,22 +6,22 @@ include __DIR__ . '/Db.php';
 
 abstract class Model
 {
-    protected static $db;
+    protected  $db;
     
     public function __construct(Db $db)
     {
-       static::$db = $db;
+       $this->db = $db;
     }
     
     public function findAll()
     {
-        return static::$db->query('SELECT * FROM ' . static::$table, [], static::class);
+        return $this->db->query('SELECT * FROM ' . static::$table, [], static::class);
     }
     
     public  function findById($id)
     {
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id=:id';
-        $data = static::$db->query($sql, [':id' => $id], static::class);
+        $data = $this->db->query($sql, [':id' => $id], static::class);
         return $data[0] ?? false;
     }
     
@@ -46,7 +46,7 @@ abstract class Model
         $binds = [];
         $data = [];
         foreach ($this as $column => $value) {
-            if ('id' == $column) {
+            if ('id' == $column || 'db' == $column) {
                 continue;
             }
             $columns[] = $column;
@@ -60,8 +60,8 @@ abstract class Model
                 VALUES
                 (' . implode(', ', $binds) . ')
                 ';
-        static::$db->execute($sql, $data);
-        $this->id = static::$db->lastInsertId();
+        $this->db->execute($sql, $data);
+        $this->id = $this->db->lastInsertId();
     }
     
     protected function update()
@@ -72,25 +72,25 @@ abstract class Model
         foreach ($this as $column => $value) {
             $data[':' . $column] = $value;
     
-            if ('id' == $column ) {
+            if ('id' == $column || 'db' == $column) {
                 continue;
             }
             $columns[] = $column . ' = :' . $column;
         }
         $sql = $sql . implode(', ', $columns) . ' WHERE id= ' . ':id';
        // $data[id] =$this->id;
-        static::$db->execute($sql, $data);
+        $this->db->execute($sql, $data);
     }
     
     public function delete()
     {
         $sql = 'DELETE FROM ' . static::$table . ' WHERE id= ' . $this->id;
-        static::$db->execute($sql);
+        $this->db->execute($sql);
     }
     
     public  function deleteName($name)
     {
         $sql = 'DELETE FROM ' . static::$table . " WHERE name = :name";
-        static::$db->execute($sql, ['name' => $name]);
+        $this->db->execute($sql, ['name' => $name]);
     }
 }
